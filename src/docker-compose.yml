@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:5.0
+    volume:   
+      - ./yourWallet/data:/data/db
+      - ports: 3000/27017
+    container: name_mymongo

@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDiscountDto } from './dto/create-discount.dto';
-import { UpdateDiscountDto } from './dto/update-discount.dto';
+import { CreateDiscountDTO } from './dto/create.discount.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Discount, DiscountDocument } from './entities/discount.entity';
 
 @Injectable()
 export class DiscountService {
-  create(createDiscountDto: CreateDiscountDto) {
-    return 'This action adds a new discount';
+  constructor(
+    @InjectModel('Discount')
+    private readonly discountModel: Model<DiscountDocument>,
+  ) {}
+
+  async findAllDiscount(): Promise<Discount[]> {
+    const Alldiscounts = await this.discountModel.findAll().exec();
+    return Alldiscounts;
   }
 
-  findAll() {
-    return `This action returns all discount`;
+  async userSearchDiscount(id: number): Promise<Discount> {
+    const searchDdiscount = await this.discountModel.findById(id).exec();
+    if (searchDdiscount) return searchDdiscount;
+    else Error('code takhfif motabar nist!'); //try catch chejuri mishe?
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} discount`;
+  async createDiscount(
+    createDiscountDTO: CreateDiscountDTO,
+  ): Promise<Discount> {
+    const newDiscount = await this.discountModel.create(createDiscountDTO);
+    return newDiscount.save();
   }
 
-  update(id: number, updateDiscountDto: UpdateDiscountDto) {
-    return `This action updates a #${id} discount`;
+  async updateDiscount(
+    id: number,
+    updateDiscountDto: CreateDiscountDTO,
+  ): Promise<Discount> {
+    const updatedDiscount = await this.discountModel.findByIdAndUpdate(
+      id,
+      updateDiscountDto,
+      { new: true },
+    );
+    return updatedDiscount;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} discount`;
+  async removeDiscount(id: number): Promise<Discount> {
+    const removedDiscount = await this.discountModel.findByIdAndRemove(id);
+    return removedDiscount;
   }
 }

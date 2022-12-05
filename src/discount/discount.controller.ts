@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { DiscountService } from './discount.service';
-import { CreateDiscountDto } from './dto/create-discount.dto';
-import { UpdateDiscountDto } from './dto/update-discount.dto';
+import { CreateDiscountDTO } from './dto/create.discount.dto';
 
 @Controller('discount')
 export class DiscountController {
   constructor(private readonly discountService: DiscountService) {}
 
-  @Post()
-  create(@Body() createDiscountDto: CreateDiscountDto) {
-    return this.discountService.create(createDiscountDto);
+  @Post('/addcopon/')
+  async addCopon(@Body() createDiscountDto: CreateDiscountDTO) {
+    return this.discountService.createDiscount(createDiscountDto);
   }
 
-  @Get()
-  findAll() {
-    return this.discountService.findAll();
+  @Get('/searchcopon')
+  findOne(@Query('id') id: number) {
+    return this.discountService.userSearchDiscount(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.discountService.findOne(+id);
+  @Patch('/codetakhfif/taghireCopon/:id')
+  update(@Param('id') id: number, @Body() updateDiscountDto) {
+    return this.discountService.updateDiscount(id, updateDiscountDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDiscountDto: UpdateDiscountDto) {
-    return this.discountService.update(+id, updateDiscountDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.discountService.remove(+id);
+  @Delete('/userWallet/usecopon/deletecopon/:id')
+  remove(@Param('id') id: number) {
+    return this.discountService.removeDiscount(id);
   }
 }
+export class Discountcontroller {}
+/*@Get()
+  findAll() {
+    return this.discountService.findAll();
+  }*/

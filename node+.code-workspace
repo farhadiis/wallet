@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "wallet",
+			"path": "."
+		}
+	],
+	"settings": {}
+}

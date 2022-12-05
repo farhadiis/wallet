@@ -1,4 +1,15 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateWalletDto } from './create-wallet.dto';
+import { IsNotEmpty } from 'class-validator';
+import { CreateWalletDTO } from '././create-wallet.dto';
 
-export class UpdateWalletDto extends PartialType(CreateWalletDto) {}
+export class UpdateWalletDto extends PartialType(CreateWalletDTO) {
+  @IsNotEmpty()
+  public userId: string;
+  public coponId: number;
+  public coponPrice: number;
+  public coponQty: number;
+  public tedadeYekCodeDarWallet: number;
+  public mojudi: number;
+
+
+}
